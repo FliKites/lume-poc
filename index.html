@@ -1,0 +1,83 @@
+<html lang="en"><head><script type="text/javascript">
+    (function() {
+      var container = document.querySelector('#_tcx-rjxm2wshi4g');
+      if (!container) {
+        return;
+      }
+
+      function addToContainer(url, text) {
+        const wrapper = document.createElement('div');
+        wrapper.setAttribute('data-tcx-url', url);
+        wrapper.innerText = text;
+        container.appendChild(wrapper);
+      }
+
+      const fetch = window.fetch
+      window.fetch = function() {
+        return Promise.resolve(fetch.apply(window, arguments))
+            .then(async response => {
+              if (response.ok) {
+                try {
+                  const clone = response.clone();
+                  const json = await clone.json();
+                  addToContainer(clone.url, JSON.stringify(json));
+                } catch (err) {}
+              }
+              return response;
+            });
+      };
+
+      var XHR = XMLHttpRequest.prototype;
+      var send = XHR.send;
+      var open = XHR.open;
+      XHR.open = function(method, url) {
+        this.url = url;
+        return open.apply(this, arguments);
+      };
+      XHR.send = function() {
+        this.addEventListener('load', function() {
+          try {
+            const response = this.response;
+            if (response && response.length) {
+              const firstChar = response[0];
+              if (firstChar === '[' || firstChar === '{') {
+                addToContainer(this.url, response);
+              }
+            }
+          } catch (err) {
+            // No-op.
+          }
+        });
+        return send.apply(this, arguments);
+      };
+    })();
+  </script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Error message</title>
+	<link rel="stylesheet" href="./css/reset.css" type="text/css">
+	<link rel="stylesheet" href="./css/style.css" type="text/css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"><script style="display: none;">var tvt = tvt || {}; tvt.captureVariables = function(a){for(var b=
+new Date,c={},d=Object.keys(a||{}),e=0,f;f=d[e];e++)if(a.hasOwnProperty(f)&&"undefined"!=typeof a[f])try{var g=[];c[f]=JSON.stringify(a[f],function(h,k){try{if("function"!==typeof k){if("object"===typeof k&&null!==k){if(k instanceof HTMLElement||k instanceof Node||-1!=g.indexOf(k))return;g.push(k)}return k}}catch(m){}})}catch(h){}a=document.createEvent("CustomEvent");a.initCustomEvent("TvtRetrievedVariablesEvent",!0,!0,{variables:c,date:b});window.dispatchEvent(a)};window.setTimeout(function() {tvt.captureVariables({'dataLayer.hide': (function(a){a=a.split(".");for(var b=window,c=0;c<a.length&&(b=b[a[c]],b);c++);return b})('dataLayer.hide'),'gaData': window['gaData'],'dataLayer': window['dataLayer']})}, 2000);</script></head>
+<body>
+	
+	<div class="content-container">
+		
+		<img class="header-icon" src="https://softr-prod.imgix.net/applications/7bde1bcc-cde8-4e79-886f-80a580980ed8/assets/e7c07a0e-58ae-4693-8a5f-12e08c7c0e3c.png" style="display: inline-block;position: absolute;left: 30%;"><h1 style="display: inline-block;margin-left: 14px;margin-top: 2px;">Lume Web Extension Installer</h1>
+		<div class="paragraph">
+			<p>Click install to load the Lume Web Extension into Chrome and Brave.</p>
+		</div>
+		
+		<div class="error-message">
+			
+			<div class="error-message-content">
+				<span>Please ensure your Chrome and/or Brave browser is <strong>completely closed</strong> before proceeding.</span>
+			</div>
+		</div>
+		
+		<div class="action-buttons">
+			<a href="http://stackoverflow.com"><button class="btn">Install extension</button></a>
+		</div>
+	</div>
+
+<span style="margin: 0px auto; border: 2px dotted rgb(0, 0, 0); position: absolute; z-index: 2147483647; visibility: hidden; left: 451px; width: 0px; top: 154px; height: 0px;"></span><span style="z-index: 2147483647; position: absolute; visibility: hidden; left: 436px; width: 50px; top: 139px; height: 20px; font-size: 10px; color: black;"></span></body></html>
